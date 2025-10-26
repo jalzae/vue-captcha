@@ -74,7 +74,7 @@ const handleVerify = async () => {
 </template>
 ```
 
-### Nuxt 3
+### Nuxt 3 - As a Module (Recommended)
 
 #### Step 1: Install
 
@@ -82,25 +82,48 @@ const handleVerify = async () => {
 npm install @jalzae/vue-captcha
 ```
 
-#### Step 2: Create Plugin (Optional but Recommended)
-
-Create `plugins/verify-human.ts`:
+#### Step 2: Add to `nuxt.config.ts`
 
 ```typescript
-import { verifyHuman } from '@jalzae/vue-captcha'
-
-export default defineNuxtPlugin(() => {
-  return {
-    provide: {
-      verifyHuman
-    }
+export default defineNuxtConfig({
+  modules: [
+    '@jalzae/vue-captcha'
+  ],
+  // Optional: Configure module options
+  verifyCaptcha: {
+    autoImports: true,  // Auto-import useVerifyHuman
+    addPlugin: true     // Auto-provide $verifyHuman
   }
 })
 ```
 
-#### Step 3: Use in Pages/Components
+#### Step 3: Use in Components
 
-**With Plugin:**
+**Method 1: Using Composable (Recommended)**
+```vue
+<script setup>
+const { verifyHuman, isVerifying, verified, error } = useVerifyHuman()
+
+const handleVerify = async () => {
+  const result = await verifyHuman()
+  if (result) {
+    console.log('✅ Verified!')
+  }
+}
+</script>
+
+<template>
+  <div>
+    <button @click="handleVerify" :disabled="isVerifying">
+      {{ isVerifying ? 'Verifying...' : 'Verify I\'m Human' }}
+    </button>
+    <p v-if="verified" class="success">✅ Verified!</p>
+    <p v-if="error" class="error">{{ error }}</p>
+  </div>
+</template>
+```
+
+**Method 2: Using Plugin (via useNuxtApp)**
 ```vue
 <script setup>
 const { $verifyHuman } = useNuxtApp()
@@ -118,13 +141,128 @@ const handleVerify = async () => {
 </template>
 ```
 
-**Without Plugin:**
+**Method 3: Direct Import**
 ```vue
 <script setup>
 import { verifyHuman } from '@jalzae/vue-captcha'
 
 const handleVerify = async () => {
   const result = await verifyHuman()
+  if (result) {
+    console.log('✅ Verified!')
+  }
+}
+</script>
+
+<template>
+  <button @click="handleVerify">Verify</button>
+</template>
+```
+
+---
+
+## 🚀 Nuxt Module Guide
+
+### Module Configuration
+
+Add `@jalzae/vue-captcha` to your `nuxt.config.ts`:
+
+```typescript
+export default defineNuxtConfig({
+  modules: [
+    '@jalzae/vue-captcha'
+  ]
+})
+```
+
+### Module Options
+
+```typescript
+export default defineNuxtConfig({
+  modules: [
+    '@jalzae/vue-captcha'
+  ],
+  verifyCaptcha: {
+    // Auto-import the useVerifyHuman composable (default: true)
+    autoImports: true,
+
+    // Provide $verifyHuman via plugin (default: true)
+    addPlugin: true
+  }
+})
+```
+
+### Using `useVerifyHuman` Composable
+
+The module automatically exports a composable for reactive verification:
+
+```vue
+<script setup>
+const { verifyHuman, isVerifying, verified, error, reset } = useVerifyHuman()
+
+const handleVerify = async () => {
+  const result = await verifyHuman()
+  console.log(result ? '✅ Verified!' : '❌ Cancelled')
+}
+
+const handleReset = () => {
+  reset() // Clear verification state
+}
+</script>
+
+<template>
+  <div>
+    <button @click="handleVerify" :disabled="isVerifying">
+      <span v-if="isVerifying">⏳ Verifying...</span>
+      <span v-else>🎮 Verify I'm Human</span>
+    </button>
+
+    <!-- Show state indicators -->
+    <div v-if="verified" class="success">✅ Verified!</div>
+    <div v-if="error" class="error">⚠️ {{ error }}</div>
+
+    <!-- Reset button -->
+    <button v-if="verified" @click="handleReset">Reset</button>
+  </div>
+</template>
+
+<style scoped>
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.success { color: green; font-weight: bold; }
+.error { color: red; font-weight: bold; }
+</style>
+```
+
+#### Composable API
+
+```typescript
+const {
+  // Function to trigger verification
+  verifyHuman: () => Promise<boolean>,
+
+  // Reset verification state
+  reset: () => void,
+
+  // Reactive states
+  isVerifying: Ref<boolean>,    // true while modal is open
+  verified: Ref<boolean>,       // true if last verification succeeded
+  error: Ref<string | null>     // error message if any
+} = useVerifyHuman()
+```
+
+### Using `$verifyHuman` Plugin
+
+Access the verification function via `useNuxtApp()`:
+
+```vue
+<script setup>
+const { $verifyHuman } = useNuxtApp()
+
+const handleVerify = async () => {
+  const result = await $verifyHuman()
   if (result) {
     console.log('✅ Verified!')
   }
