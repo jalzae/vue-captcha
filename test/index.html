@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Verify Vue - Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="min-h-screen flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-96">
+            <h1 class="text-3xl font-bold mb-2 text-center">🧪 Human Verify Vue</h1>
+            <p class="text-gray-600 text-center mb-6">Test the verification modal</p>
+
+            <button
+                id="verifyBtn"
+                class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition-colors mb-4"
+            >
+                🎮 Verify I'm Human
+            </button>
+
+            <div id="result" class="mt-6 p-4 rounded-lg hidden">
+                <p id="resultText" class="text-lg font-semibold"></p>
+            </div>
+
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                <p class="text-sm text-gray-700">
+                    <strong>📝 How it works:</strong><br>
+                    1. Click the button above<br>
+                    2. A modal will appear with a dice game<br>
+                    3. Guess the dice number (1-6)<br>
+                    4. Win to be verified!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { verifyHuman } from './main.js';
+
+        const verifyBtn = document.getElementById('verifyBtn');
+        const resultDiv = document.getElementById('result');
+        const resultText = document.getElementById('resultText');
+
+        verifyBtn.addEventListener('click', async () => {
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = '⏳ Verifying...';
+            resultDiv.classList.add('hidden');
+
+            try {
+                const result = await verifyHuman();
+
+                resultDiv.classList.remove('hidden');
+
+                if (result) {
+                    resultDiv.className = 'mt-6 p-4 rounded-lg bg-green-100 border-2 border-green-500';
+                    resultText.innerHTML = '✅ <span class="text-green-600">Verification Successful!</span>';
+                    resultText.className = 'text-lg font-semibold text-green-700';
+                } else {
+                    resultDiv.className = 'mt-6 p-4 rounded-lg bg-red-100 border-2 border-red-500';
+                    resultText.innerHTML = '❌ <span class="text-red-600">Verification Failed</span>';
+                    resultText.className = 'text-lg font-semibold text-red-700';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.className = 'mt-6 p-4 rounded-lg bg-red-100 border-2 border-red-500';
+                resultText.innerHTML = '⚠️ <span class="text-red-600">Error: ' + error.message + '</span>';
+                resultText.className = 'text-lg font-semibold text-red-700';
+                resultDiv.classList.remove('hidden');
+            } finally {
+                verifyBtn.disabled = false;
+                verifyBtn.textContent = '🎮 Verify I\'m Human';
+            }
+        });
+    </script>
+</body>
+</html>
