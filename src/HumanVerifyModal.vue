@@ -9,6 +9,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue"
+import ImageGame from "./games/ImageGame.vue"
 import DiceGame from "./games/DiceGame.vue"
 
 const props = defineProps(["onClose", "onSuccess"])
@@ -16,7 +17,8 @@ const show = ref(true)
 const gameComponent = ref(null)
 
 onMounted(() => {
-  const games = [DiceGame]
+  // Use multiple games - randomly select one
+  const games = [ImageGame, DiceGame]
   const randomGame = games[Math.floor(Math.random() * games.length)]
   gameComponent.value = randomGame
 })
