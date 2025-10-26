@@ -1,5 +1,5 @@
 {
-  "name": "vue-captcha",
+  "name": "@jalzae/vue-captcha",
   "version": "1.0.0",
   "main": "dist/human-verify-vue.umd.js",
   "module": "dist/human-verify-vue.es.js",
