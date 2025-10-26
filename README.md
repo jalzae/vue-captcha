@@ -26,19 +26,19 @@ A lightweight, interactive human verification library for Vue 3 and Nuxt 3 appli
 ### Using NPM
 
 ```bash
-npm install vue-captcha
+npm install @jalzae/vue-captcha
 ```
 
 ### Using Yarn
 
 ```bash
-yarn add vue-captcha
+yarn add @jalzae/vue-captcha
 ```
 
 ### Using PNPM
 
 ```bash
-pnpm add vue-captcha
+pnpm add @jalzae/vue-captcha
 ```
 
 ---
@@ -50,7 +50,7 @@ pnpm add vue-captcha
 ```javascript
 // In your Vue component or page
 <script setup>
-import { verifyHuman } from 'vue-captcha'
+import { verifyHuman } from '@jalzae/vue-captcha'
 
 const handleVerify = async () => {
   try {
@@ -79,7 +79,7 @@ const handleVerify = async () => {
 #### Step 1: Install
 
 ```bash
-npm install vue-captcha
+npm install @jalzae/vue-captcha
 ```
 
 #### Step 2: Create Plugin (Optional but Recommended)
@@ -87,7 +87,7 @@ npm install vue-captcha
 Create `plugins/verify-human.ts`:
 
 ```typescript
-import { verifyHuman } from 'vue-captcha'
+import { verifyHuman } from '@jalzae/vue-captcha'
 
 export default defineNuxtPlugin(() => {
   return {
@@ -121,7 +121,7 @@ const handleVerify = async () => {
 **Without Plugin:**
 ```vue
 <script setup>
-import { verifyHuman } from 'vue-captcha'
+import { verifyHuman } from '@jalzae/vue-captcha'
 
 const handleVerify = async () => {
   const result = await verifyHuman()
@@ -218,7 +218,7 @@ Users watch an animated dice roll and guess the final number.
 
 ```vue
 <script setup>
-import { verifyHuman } from 'vue-captcha'
+import { verifyHuman } from '@jalzae/vue-captcha'
 
 const email = ref('')
 const password = ref('')
@@ -271,7 +271,7 @@ const handleLogin = async () => {
 
 ```vue
 <script setup>
-import { verifyHuman } from 'vue-captcha'
+import { verifyHuman } from '@jalzae/vue-captcha'
 
 const comment = ref('')
 
@@ -309,7 +309,7 @@ const submitComment = async () => {
 Create `middleware/verify.ts`:
 
 ```typescript
-import { verifyHuman } from 'vue-captcha'
+import { verifyHuman } from '@jalzae/vue-captcha'
 
 export default defineRouteMiddleware(async (to, from) => {
   // Check if user already verified
@@ -348,7 +348,7 @@ definePageMeta({
 
 ```vue
 <script setup>
-import { verifyHuman } from 'vue-captcha'
+import { verifyHuman } from '@jalzae/vue-captcha'
 
 const form = reactive({
   name: '',
@@ -551,7 +551,7 @@ app.post('/api/verify-action', verifyLimiter, (req, res) => {
 ```vue
 <script setup>
 import { debounce } from 'lodash-es'
-import { verifyHuman } from 'vue-captcha'
+import { verifyHuman } from '@jalzae/vue-captcha'
 
 const verifyWithDebounce = debounce(async () => {
   const result = await verifyHuman()
@@ -637,7 +637,7 @@ npm run dev
 Create `types/vue-captcha.d.ts`:
 
 ```typescript
-declare module 'vue-captcha' {
+declare module '@jalzae/vue-captcha' {
   export function verifyHuman(): Promise<boolean>
 }
 ```
