@@ -79,12 +79,12 @@ const diceFaces = {
 
 // Draw a single dice face
 const drawDiceFace = (number, rotation = 0, scale = 1) => {
-  const canvas = canvas.value
+  const canvasElement = canvas.value
   const ctxLocal = ctx.value
   const size = 200 * scale
 
   ctxLocal.save()
-  ctxLocal.translate(canvas.width / 2, canvas.height / 2)
+  ctxLocal.translate(canvasElement.width / 2, canvasElement.height / 2)
   ctxLocal.rotate(rotation)
 
   // Draw white face
@@ -111,20 +111,20 @@ const drawDiceFace = (number, rotation = 0, scale = 1) => {
 
 // Draw rolling dice with 3D effect
 const drawRollingDice = (rotation = 0) => {
-  const canvas = canvas.value
+  const canvasElement = canvas.value
   const ctxLocal = ctx.value
 
   // Clear canvas
-  const gradient = ctxLocal.createLinearGradient(0, 0, canvas.width, canvas.height)
+  const gradient = ctxLocal.createLinearGradient(0, 0, canvasElement.width, canvasElement.height)
   gradient.addColorStop(0, "#e8eef5")
   gradient.addColorStop(1, "#d0dce8")
   ctxLocal.fillStyle = gradient
-  ctxLocal.fillRect(0, 0, canvas.width, canvas.height)
+  ctxLocal.fillRect(0, 0, canvasElement.width, canvasElement.height)
 
   // Draw shadow
   ctxLocal.fillStyle = "rgba(0, 0, 0, 0.1)"
   ctxLocal.beginPath()
-  ctxLocal.ellipse(canvas.width / 2, canvas.height - 30, 100, 20, 0, 0, Math.PI * 2)
+  ctxLocal.ellipse(canvasElement.width / 2, canvasElement.height - 30, 100, 20, 0, 0, Math.PI * 2)
   ctxLocal.fill()
 
   // Draw rolling dice
