@@ -16,13 +16,14 @@ export default defineConfig(({ command, mode }) => {
       }
     }
   } else {
-    // Library build configuration
+    // Note: This is for testing/demo only
+    // For production module build, use: npm run prepack
     return {
       plugins: [vue()],
       build: {
         lib: {
           entry: 'src/index.js',
-          name: 'human-verify-vue',
+          name: 'HumanVerifyVue',
           fileName: (format) => `human-verify-vue.${format}.js`
         },
         rollupOptions: {
