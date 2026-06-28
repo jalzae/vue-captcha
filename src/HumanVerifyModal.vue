@@ -11,6 +11,14 @@
 import { ref, onMounted } from "vue"
 import ImageGame from "./games/ImageGame.vue"
 import DiceGame from "./games/DiceGame.vue"
+import HorseRaceGame from "./games/HorseRaceGame.vue"
+import ColorMatchGame from "./games/ColorMatchGame.vue"
+import SpotDifferenceGame from "./games/SpotDifferenceGame.vue"
+import ConnectDotsGame from "./games/ConnectDotsGame.vue"
+import WordScrambleGame from "./games/WordScrambleGame.vue"
+import ReactionTimerGame from "./games/ReactionTimerGame.vue"
+import PatternCopyGame from "./games/PatternCopyGame.vue"
+import DragDropGame from "./games/DragDropGame.vue"
 
 const props = defineProps(["onClose", "onSuccess"])
 const show = ref(true)
@@ -18,7 +26,18 @@ const gameComponent = ref(null)
 
 onMounted(() => {
   // Use multiple games - randomly select one
-  const games = [ImageGame, DiceGame]
+  const games = [
+    ImageGame,
+    DiceGame,
+    HorseRaceGame,
+    ColorMatchGame,
+    SpotDifferenceGame,
+    ConnectDotsGame,
+    WordScrambleGame,
+    ReactionTimerGame,
+    PatternCopyGame,
+    DragDropGame,
+  ]
   const randomGame = games[Math.floor(Math.random() * games.length)]
   gameComponent.value = randomGame
 })

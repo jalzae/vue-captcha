@@ -1,6 +1,6 @@
 # 🧪 Human Verify Vue
 
-A lightweight, interactive human verification library for Vue 3 and Nuxt 3 applications. Features canvas-based CAPTCHA image verification and animated dice game challenges to prevent bot access.
+A lightweight, interactive human verification library for Vue 3 and Nuxt 3 applications. Features 10 canvas-based captcha games — including image CAPTCHA, dice, horse racing, color match, spot the difference, connect the dots, word scramble, reaction timer, pattern copy, and drag & drop — to prevent bot access.
 
 ![Vue](https://img.shields.io/badge/Vue-3.5+-success)
 ![License](https://img.shields.io/badge/License-ISC-blue)
@@ -12,11 +12,19 @@ A lightweight, interactive human verification library for Vue 3 and Nuxt 3 appli
 
 - 🖼️ **Canvas-Based CAPTCHA** - Distorted numbers with noise and visual effects
 - 🎲 **Animated Dice Game** - Smooth rolling animation with dot patterns
-- 🎯 **Random Game Selection** - Alternates between games for enhanced security
+- 🏇 **Horse Racing** - Watch animated horses race, pick the winner
+- 🎨 **Color Match** - Stroop effect: pick ink color, not the word
+- 🔍 **Spot the Difference** - Find the difference between two procedural scenes
+- 🔗 **Connect the Dots** - Click numbered dots in ascending order
+- 🔤 **Word Scramble** - Unscramble a jumbled word rendered on canvas
+- ⚡ **Reaction Timer** - Click targets after random delay (3 rounds)
+- 🧠 **Pattern Copy** - Memorize a grid pattern and recreate it
+- 🔄 **Drag & Drop** - Drag numbered items into ascending order
+- 🎯 **Random Game Selection** - Randomly picks from 10 games each time
 - 📱 **Responsive Design** - Works on desktop, tablet, and mobile
 - ♿ **User Friendly** - Easy refresh buttons and clear feedback
-- ⚡ **Lightweight** - Only ~3KB gzipped, zero dependencies besides Vue
-- 🔒 **Bot-Resistant** - Canvas-based rendering makes OCR difficult
+- ⚡ **Lightweight** - Zero dependencies besides Vue
+- 🔒 **Bot-Resistant** - Canvas rendering + timing analysis + randomness
 - 🎨 **Customizable** - Easy to extend with your own verification games
 
 ---
@@ -347,6 +355,161 @@ Users watch an animated dice roll and guess the final number.
 4. User clicks "Submit Guess"
 5. On success: Returns `true` and closes
 6. On failure: Shows correct answer, rolls again
+
+---
+
+### 🏇 Horse Racing Game
+
+Users watch an animated horse race and pick the winning horse number.
+
+**Features:**
+- 6 colored horses with animated running legs
+- Grass track with alternating lane colors
+- Checkered finish line
+- Per-frame random speed (unpredictable winner)
+- Horse numbers rendered on each body
+
+**How it works:**
+1. User clicks "Start Race"
+2. 6 horses race across the canvas with varying speed each frame
+3. First horse to cross finish line wins
+4. User clicks the winning horse's number
+5. On success: Returns `true` and closes
+6. On failure: New race starts automatically
+
+---
+
+### 🎨 Color Match Game
+
+Stroop effect — user must identify the ink color, not the word itself.
+
+**Features:**
+- 6 color options (RED, BLUE, GREEN, YELLOW, PURPLE, ORANGE)
+- Word always shows a different color than the text
+- Canvas rendering with noise, rotation, scaling
+- Shuffled button order each round
+
+**How it works:**
+1. A color word (e.g. "RED") appears written in a different ink color (e.g. blue)
+2. User clicks the button matching the ink color, not the word
+3. On success: Returns `true` and closes
+4. On failure: New challenge generated
+
+---
+
+### 🔍 Spot the Difference Game
+
+Two nearly identical procedural scenes side-by-side. User clicks the difference.
+
+**Features:**
+- Procedurally generated scenes (sky, ground, sun, clouds, tree, shapes)
+- One random shape has its color changed in the right canvas
+- Hit tolerance (±5px) for click detection
+- X-mark feedback on wrong clicks
+
+**How it works:**
+1. Two canvas scenes appear with one subtle difference
+2. User clicks on the area that differs
+3. On success: Highlighted with green circle, closes
+4. On failure: Red X marker, keep looking
+
+---
+
+### 🔗 Connect the Dots Game
+
+Canvas shows numbered dots. User must click them in ascending order.
+
+**Features:**
+- 6 randomly positioned dots with collision avoidance
+- Connecting lines drawn between correctly clicked dots
+- Blue fill on clicked dots, visual progression
+- Background grid for depth
+
+**How it works:**
+1. Dots numbered 1–6 appear at random positions
+2. User clicks dot 1, then 2, then 3, etc.
+3. Lines connect clicked dots in order
+4. Wrong click: error message, must click correct next dot
+5. All dots connected: Returns `true`
+
+---
+
+### 🔤 Word Scramble Game
+
+A jumbled word rendered on canvas. User must unscramble and type it.
+
+**Features:**
+- 21-word pool (4-5 letter words: HORSE, RIVER, CLOUD, etc.)
+- Canvas rendering with per-char distortion (rotation, scale, font variation)
+- Fisher-Yates shuffle ensuring always scrambled
+- 5 different fonts cycled across characters
+
+**How it works:**
+1. Scrambled word appears on canvas with distortion
+2. User types the correct word
+3. Case-insensitive matching
+4. On success: Returns `true`
+5. On failure: New word generated
+
+---
+
+### ⚡ Reaction Timer Game
+
+Target appears at random position after random delay. User must click it quickly.
+
+**Features:**
+- 3 rounds per verification
+- Random delay (1.5–4.5s) before target appears
+- Random target shape (circle, star, diamond) and color
+- Anti-bot: <100ms reaction = suspicious, pre-click = fail
+- Average reaction time shown on completion
+
+**How it works:**
+1. User clicks "Start Round"
+2. Canvas shows "Wait for it..." during delay
+3. Target appears at random position
+4. User clicks the target
+5. Repeat for 3 rounds
+6. All rounds passed: Returns `true`
+
+---
+
+### 🧠 Pattern Copy Game
+
+A colored grid pattern is shown briefly. User must recreate it from memory.
+
+**Features:**
+- 4×4 grid (16 cells), 5 cells lit
+- 3-second memorization countdown
+- User clicks cells to toggle them
+- Exact match required (correct cells in correct positions)
+
+**How it works:**
+1. Grid shows 5 highlighted cells for 3 seconds
+2. Pattern disappears — all cells go blank
+3. User clicks to recreate the pattern
+4. Must select exactly 5 cells
+5. On correct match: Returns `true`
+6. On failure: New pattern generated
+
+---
+
+### 🔄 Drag & Drop Game
+
+Numbered circles in random positions. User drags them into ascending order.
+
+**Features:**
+- 5 colored numbered circles
+- Mouse and touch support
+- Ghost zones showing target positions (faint numbers in background)
+- Drop-shadow on dragged item
+- Auto-detects correct left-to-right, top-to-bottom order
+
+**How it works:**
+1. Numbered circles appear shuffled on canvas
+2. User drags each circle to arrange them in order (1→5)
+3. Background shows faint target positions
+4. When correctly ordered: Returns `true`
 
 ---
 
@@ -806,12 +969,14 @@ For issues and questions:
 ## 🎉 What's Next?
 
 Ideas for features:
-- [ ] Custom game components
+- [x] ~~Custom game components~~ — 10 games included
+- [x] ~~More game types~~ — horse racing, color match, spot difference, connect dots, word scramble, reaction timer, pattern copy, drag & drop
 - [ ] Backend verification API
 - [ ] Multiple language support
 - [ ] Accessibility improvements
-- [ ] Mobile optimizations
-- [ ] More game types (puzzle, slider, etc.)
+- [ ] Difficulty scaling (escalate after failed attempts)
+- [ ] Slider puzzle game
+- [ ] Grid selection (reCAPTCHA-style)
 
 ---
 
@@ -819,7 +984,7 @@ Ideas for features:
 
 - **Size:** ~3KB gzipped
 - **Dependencies:** 0 (besides Vue 3)
-- **Games:** 2 (CAPTCHA, Dice)
+- **Games:** 10 (Image CAPTCHA, Dice, Horse Racing, Color Match, Spot Difference, Connect Dots, Word Scramble, Reaction Timer, Pattern Copy, Drag & Drop)
 - **Browser Support:** Modern browsers
 - **Performance:** 60 FPS animations
 
