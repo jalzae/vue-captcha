@@ -1,6 +1,6 @@
 import { defineNuxtModule, createResolver, addPlugin } from '@nuxt/kit';
 
-const module = defineNuxtModule({
+const module$1 = defineNuxtModule({
   meta: {
     name: "@jalzae/vue-captcha",
     configKey: "verifyCaptcha",
@@ -26,4 +26,4 @@ const module = defineNuxtModule({
   }
 });
 
-export { module as default };
+export { module$1 as default };

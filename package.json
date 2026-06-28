@@ -1,6 +1,6 @@
 {
   "name": "@jalzae/vue-captcha",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Interactive human verification library for Vue 3 and Nuxt 3 with canvas-based CAPTCHA and dice games",
   "license": "ISC",
   "author": "Jalzae",
